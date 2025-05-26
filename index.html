@@ -190,7 +190,7 @@
     <div id="captchaBattleScreen" class="min-h-screen flex flex-col items-center justify-center relative z-10 hidden p-4">
         <div class="w-full max-w-5xl mx-auto">
             <div class="mb-6">
-                <p class="text-lg md:text-xl text-yellow-300 border border-yellow-400 p-4 bg-black bg-opacity-75 glitch-text text-center shadow-lg shadow-yellow-500/30">
+                <p class="text-base sm:text-lg md:text-xl text-yellow-300 border border-yellow-400 p-4 bg-black bg-opacity-75 glitch-text text-center shadow-lg shadow-yellow-500/30">
                     Now you need to select these images or emojis as quickly as possible to complete the verification test. You need to be faster than the computer completing 10 verifications, otherwise your computer will be invaded by AI.
                 </p>
             </div>
@@ -207,17 +207,17 @@
                 </p>
             </div>
 
-            <div class="flex flex-col lg:flex-row justify-around items-start gap-6 mb-8">
+            <div class="flex flex-col sm:flex-col lg:flex-row justify-around items-center gap-6 mb-8">
                 <div class="flex-1 w-full">
                     <h3 class="text-2xl font-glitch text-center mb-3 text-green-400">&gt; YOUR GRID</h3>
-                    <div id="userCaptchaGrid" class="grid grid-cols-3 gap-1 sm:gap-2 p-1 sm:p-2 border-2 border-green-500 bg-black bg-opacity-70 aspect-square w-full max-w-xs sm:max-w-sm mx-auto shadow-lg shadow-green-500/30">
+                    <div id="userCaptchaGrid" class="grid grid-cols-3 gap-1 sm:gap-2 p-1 sm:p-2 border-2 border-green-500 bg-black bg-opacity-70 aspect-square w-full max-w-[300px] mx-auto shadow-lg shadow-green-500/30">
                         <!-- Cells dynamically generated -->
                     </div>
                 </div>
 
                 <div class="flex-1 w-full mt-6 lg:mt-0">
                     <h3 class="text-2xl font-glitch text-center mb-3 text-gray-500">&gt; AI GRID (SIMULATED)</h3>
-                    <div id="aiCaptchaGrid" class="grid grid-cols-3 gap-1 sm:gap-2 p-1 sm:p-2 border-2 border-gray-700 bg-black bg-opacity-50 aspect-square w-full max-w-xs sm:max-w-sm mx-auto">
+                    <div id="aiCaptchaGrid" class="grid grid-cols-3 gap-1 sm:gap-2 p-1 sm:p-2 border-2 border-gray-700 bg-black bg-opacity-50 aspect-square w-full max-w-[300px] mx-auto">
                         <!-- Cells dynamically generated -->
                     </div>
                 </div>
