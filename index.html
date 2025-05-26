@@ -63,7 +63,7 @@
         }
     </script>
 </head>
-<body class="bg-black text-green-400 font-mono overflow-hidden">
+<body class="bg-black text-green-400 font-mono ">
     <div class="scanlines"></div>
 
     <!-- Phase 1: Landing Page -->
@@ -187,8 +187,8 @@
     </div>
 
     <!-- Phase 2: CAPTCHA Battle -->
-    <div id="captchaBattleScreen" class="min-h-screen flex flex-col items-center relative z-10 hidden p-4 overflow-y-auto">
-        <div class="w-full max-w-5xl mx-auto">
+    <div id="captchaBattleScreen" class="min-h-screen w-full overflow-auto relative z-10 hidden p-4 bg-black">
+        <div class="w-full max-w-5xl mx-auto flex flex-col gap-6">
             <div class="mb-6">
                 <p class="text-base sm:text-lg md:text-xl text-yellow-300 border border-yellow-400 p-4 bg-black bg-opacity-75 glitch-text text-center shadow-lg shadow-yellow-500/30">
                     Now you need to select these images or emojis as quickly as possible to complete the verification test. You need to be faster than the computer completing 10 verifications, otherwise your computer will be invaded by AI.
