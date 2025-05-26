@@ -1,0 +1,497 @@
+/* Base Styles and Reset */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Courier New', monospace;
+    background: #000;
+    color: #00ff00;
+    overflow: hidden; /* Prevent body scrollbars */
+}
+
+/* Scanlines Effect */
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 255, 0, 0.03) 2px,
+        rgba(0, 255, 0, 0.03) 4px
+    );
+    pointer-events: none; /* Allows clicks to pass through */
+    z-index: 1; /* Below main content */
+}
+
+/* Glitch Text Effects */
+.glitch-text {
+    position: relative;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.glitch-text::before {
+    animation: glitch-1 2s linear infinite;
+    color: #ff0040;
+    z-index: -1;
+}
+
+.glitch-text::after {
+    animation: glitch-2 3s linear infinite;
+    color: #00ffff;
+    z-index: -2;
+}
+
+@keyframes glitch-1 {
+    0%, 14%, 15%, 49%, 50%, 99%, 100% { transform: translate(0, 0) skewX(0deg); clip-path: inset(0 0 0 0); }
+    15% { transform: translate(-3px, -2px) skewX(5deg); clip-path: inset(10% 0 70% 0); }
+    50% { transform: translate(2px, -3px) skewX(-3deg); clip-path: inset(40% 0 20% 0); }
+}
+
+@keyframes glitch-2 {
+    0%, 20%, 21%, 62%, 63%, 99%, 100% { transform: translate(0, 0) skewY(0deg); clip-path: inset(0 0 0 0); }
+    21% { transform: translate(3px, 2px) skewY(3deg); clip-path: inset(0 30% 0 60%); }
+    63% { transform: translate(-2px, 3px) skewY(-5deg); clip-path: inset(70% 10% 0 0); }
+}
+
+/* Phase 1: Upload Interface - Thumbnail Grid specific styling */
+#thumbnailGrid .relative img {
+    border: 1px solid #0f0;
+}
+
+/* Phase 2: CAPTCHA Battle Grids specific styling */
+#userCaptchaGrid .border-4.border-yellow-400,
+#aiCaptchaGrid .border-4.border-blue-500 {
+    outline: 2px solid currentColor;
+}
+
+/* Phase 3: Hacker Invasion Styles */
+#hackerInvasionScreen {
+    background-image: url('screenshot.png'); /* Ensure this image is in the correct path */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10; /* Below interactive elements but above scanlines */
+    /* Blur transition made twice as slow (4s instead of 2s) */
+    transition: filter 4s ease-out;
+}
+
+/* This class is applied by JS after a delay - no black overlay */
+#hackerInvasionScreen.invasion-blurred {
+    filter: blur(10px); /* Apply the blur without any black overlay */
+}
+
+
+#invasionContent {
+     /* Initially pointer-events: none to allow clicks on background,
+     but children (.chaos-window, .chaos-folder) override to auto */
+    pointer-events: none;
+    position: absolute; /* Ensure it covers the screen */
+    top: 0; left: 0; right: 0; bottom: 0;
+    overflow: hidden; /* Contain chaotic elements */
+}
+
+.chaos-window {
+    background: rgba(30, 30, 30, 0.94);
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.75), 0 0 1px rgba(255,255,255,0.1);
+    backdrop-filter: blur(12px) saturate(120%);
+    -webkit-backdrop-filter: blur(12px) saturate(120%);
+    border: 1px solid rgba(100, 100, 100, 0.4);
+    animation: window-spawn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    min-width: 180px;
+    min-height: 130px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transform: translateZ(0); /* Helps with z-indexing and animations */
+    pointer-events: auto; /* Allow interaction */
+    will-change: transform, opacity, left, top, width, height;
+    z-index: 20; /* Below restart button and terminal, but above folders */
+}
+
+.chaos-window:hover {
+    box-shadow: 0 12px 45px rgba(0, 200, 50, 0.3), 0 0 5px rgba(0,255,80,0.7); /* Green hover effect */
+}
+
+@keyframes window-spawn {
+    0% { opacity: 0; transform: scale(0.75) rotate(8deg) translateY(30px) translateZ(0); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg) translateY(0px) translateZ(0); }
+}
+
+.window-titlebar {
+    height: 28px;
+    background: rgba(50, 50, 50, 0.97);
+    border-bottom: 1px solid rgba(80, 80, 80, 0.5);
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    cursor: grab; /* Indicate draggable */
+    border-radius: 9px 9px 0 0;
+    flex-shrink: 0;
+    position: relative;
+    user-select: none; /* Prevent selecting title text while dragging */
+}
+.window-titlebar:active { cursor: grabbing; }
+
+.window-controls {
+    display: flex;
+    gap: 8px;
+    margin-right: 10px;
+    align-items: center;
+}
+
+.control-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    cursor: pointer; /* Indicate clickable */
+    transition: all 0.15s ease-out;
+    border: 0.5px solid rgba(0, 0, 0, 0.4);
+    flex-shrink: 0;
+    pointer-events: auto; /* Ensure clicks on dots */
+}
+.control-dot:active { transform: scale(0.85); filter: brightness(0.9); }
+.control-dot.bg-red-500 { background-color: #ff5f57; } /* Close */
+.control-dot.bg-yellow-500 { background-color: #ffbd2e; } /* Minimize */
+.control-dot.bg-green-500 { background-color: #28c940; } /* Maximize */
+
+.control-dot.bg-red-500:hover { background-color: #ff7770; box-shadow: 0 0 6px #ff5f57; }
+.control-dot.bg-yellow-500:hover { background-color: #ffca50; box-shadow: 0 0 6px #ffbd2e; }
+.control-dot.bg-green-500:hover { background-color: #40de58; box-shadow: 0 0 6px #28c940; }
+
+.domain-text {
+    color: #cccccc;
+    font-size: 12px;
+    font-weight: 500;
+    flex: 1;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 0 5px;
+}
+
+.window-content {
+    flex-grow: 1;
+    padding: 8px;
+    overflow: auto; /* Enable scrolling if content exceeds bounds */
+    background: rgba(20, 20, 20, 0.95);
+    color: #00dd00; /* Terminal-like green */
+    font-size: 11px;
+    border-radius: 0 0 9px 9px;
+    pointer-events: auto; /* Allow interaction with content */
+    line-height: 1.4;
+    position: relative; /* Needed for scrollbar styling */
+}
+
+.window-minimized {
+    height: 28px !important; /* Collapse to title bar height */
+    min-height: 28px !important;
+    overflow: hidden !important;
+    /* Remove animation during minimize */
+    animation: none !important;
+}
+.window-minimized .window-content {
+    display: none !important; /* Hide content */
+}
+
+.mac-terminal {
+    /* Terminal window specific overrides */
+    background: rgba(18, 18, 18, 0.97);
+    border-radius: 10px;
+    box-shadow: 0 10px 50px rgba(0, 255, 0, 0.25), 0 0 0 1px rgba(0, 255, 0, 0.6);
+    border: none;
+    animation: terminal-emerge 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    display: flex;
+    flex-direction: column;
+    transform: translateZ(0);
+    pointer-events: auto;
+    will-change: transform, opacity, left, top, width, height;
+    z-index: 30; /* Above windows but below restart button */
+     /* Initial positioning handled by JS for fixed element */
+}
+.mac-terminal .window-titlebar {
+    background: rgba(30, 45, 30, 0.95);
+    border-bottom: 1px solid rgba(0, 180, 0, 0.4);
+    cursor: grab;
+    border-radius: 9px 9px 0 0;
+}
+.mac-terminal .window-titlebar:active { cursor: grabbing; }
+
+.mac-terminal .window-content {
+    background: transparent; /* No background needed */
+    font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+    font-size: 12px;
+    padding: 12px 16px;
+    color: #33FF33;
+    flex-grow: 1;
+    overflow-y: auto;
+    pointer-events: auto;
+    line-height: 1.5;
+    border-radius: 0 0 9px 9px;
+     position: relative; /* Needed for scrollbar styling */
+}
+
+.terminal-minimized {
+     height: 28px !important; /* Collapse to title bar height */
+    min-height: 28px !important;
+    overflow: hidden !important;
+}
+.terminal-minimized .window-content {
+    display: none !important; /* Hide content */
+}
+
+/* Terminal maximized state (positioning/sizing handled by JS) */
+.terminal-maximized-custom {
+    /* Styles applied by JS for positioning and sizing */
+     /* Ensure no animation while maximized */
+     animation: none !important;
+     /* Remove transform for fixed positioning */
+     transform: none !important;
+}
+
+@keyframes terminal-emerge {
+    0% { opacity: 0; transform: translateY(80%) scale(0.9) translateZ(0); }
+    100% { opacity: 1; transform: translateY(0) scale(1) translateZ(0); }
+}
+
+.chaos-folder {
+    width: 80px; /* Base size */
+    height: 80px; /* Base size */
+    animation: folder-spawn 0.35s ease-out;
+    transform: translateZ(0);
+    pointer-events: auto; /* Allow interaction */
+    will-change: transform, opacity, left, top;
+    z-index: 15; /* Below windows and terminal */
+     cursor: pointer; /* Indicate clickable/draggable */
+}
+.chaos-folder:hover {
+    transform: scale(1.12);
+    filter: brightness(1.25);
+}
+.chaos-folder:active {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+    cursor: grabbing;
+}
+
+@keyframes folder-spawn {
+    0% { opacity: 0; transform: scale(0.4) rotate(-15deg) translateZ(0); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg) translateZ(0); }
+}
+
+.folder-icon {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px; /* Icon size */
+    color: #60a5fa; /* Icon color (blue) */
+    transition: transform 0.15s ease, filter 0.15s ease;
+    text-shadow: 0 0 8px rgba(96, 165, 250, 0.6); /* Glow effect */
+    pointer-events: auto; /* Ensure clicks on the icon/label */
+    user-select: none; /* Prevent text selection */
+}
+
+.folder-label {
+    font-size: 10px;
+    color: #e5e5e5; /* Label text color */
+    text-align: center;
+    margin-top: 5px;
+    background: rgba(10, 10, 10, 0.75); /* Semi-transparent background for readability */
+    padding: 2px 6px;
+    border-radius: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Truncate long names */
+    max-width: calc(100% - 8px); /* Limit width slightly */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+/* Progress bar animation used in some window content */
+@keyframes progress {
+    0% { width: 0%; opacity: 0.7; }
+    50% { width: 100%; opacity: 1; }
+    100% { width: 0%; opacity: 0.7;}
+}
+
+/* Matrix text animation used in some window content */
+.matrix-text {
+    font-family: 'Courier New', monospace;
+    line-height: 1.05;
+    overflow: hidden;
+    word-wrap: break-word;
+    animation: matrix-scroll 20s linear infinite alternate;
+    color: #39FF14; /* Bright green */
+    text-shadow: 0 0 4px #39FF14, 0 0 8px #39FF14, 0 0 2px #ffffff; /* Glow effect */
+    opacity: 0.9;
+}
+
+@keyframes matrix-scroll {
+    0% { transform: translateY(0%); opacity: 0.6; }
+    50% { opacity: 0.9; }
+    100% { transform: translateY(-70%); opacity: 0.6; }
+}
+
+/* CRITICAL: Restart button - highest z-index with enhanced visibility */
+#restartGameBtn {
+    animation: restart-pulse 1.8s infinite ease-in-out;
+    backdrop-filter: blur(8px) brightness(1.2) contrast(1.1) !important;
+    -webkit-backdrop-filter: blur(8px) brightness(1.2) contrast(1.1) !important;
+    pointer-events: auto !important;
+    border-radius: 8px;
+    transition: background-color 0.2s, color 0.2s, transform 0.2s;
+    z-index: 99999 !important; /* Absolute highest z-index */
+    position: fixed !important;
+    bottom: 4%;
+    left: 4%;
+    /* Enhanced visibility styles */
+    border: 2px solid rgba(255, 0, 0, 0.8) !important;
+    background-color: rgba(0, 0, 0, 0.85) !important;
+    color: #ff4444 !important;
+    font-weight: bold !important;
+    text-shadow: 0 0 4px rgba(255, 68, 68, 0.8) !important;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.4), 0 0 40px rgba(255, 0, 0, 0.2), inset 0 0 10px rgba(255, 255, 255, 0.1) !important;
+    /* Ensure it's not affected by parent transforms or opacity */
+    transform-origin: center !important;
+    will-change: transform, opacity !important;
+}
+
+#restartGameBtn:hover {
+    transform: scale(1.08) !important;
+    background-color: rgba(255, 0, 0, 0.95) !important;
+    color: black !important;
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.7), 0 0 50px rgba(255, 0, 0, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.2) !important;
+}
+#restartGameBtn:active {
+    transform: scale(1.02) !important;
+}
+
+@keyframes restart-pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.4), 0 0 30px rgba(255, 0, 0, 0.2), inset 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+    50% {
+        transform: scale(1.06);
+        box-shadow: 0 0 25px rgba(255, 0, 0, 0.7), 0 0 50px rgba(255, 0, 0, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.15);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .chaos-window {
+        min-width: 150px;
+        min-height: 110px;
+        border-radius: 8px;
+    }
+
+    .window-content {
+        font-size: 10px;
+        padding: 6px;
+        border-radius: 0 0 7px 7px;
+    }
+
+    .window-titlebar {
+        height: 24px;
+        padding: 0 8px;
+        border-radius: 7px 7px 0 0;
+    }
+    .window-controls { gap: 6px; margin-right: 8px; }
+    .control-dot { width: 10px; height: 10px; }
+    .domain-text { font-size: 10px; }
+
+    .mac-terminal { border-radius: 8px; }
+    .mac-terminal .window-titlebar { height: 24px; border-radius: 7px 7px 0 0; }
+    .mac-terminal .window-content {
+        font-size: 10px;
+        padding: 8px 10px;
+        border-radius: 0 0 7px 7px;
+    }
+
+    .folder-icon { font-size: 28px; }
+    .chaos-folder { width: 60px; height: 60px; }
+    .folder-label { font-size: 9px; padding: 2px 4px; border-radius: 4px;}
+
+    #restartGameBtn {
+        padding: 10px 16px !important;
+        font-size: 0.95rem !important;
+        border-radius: 6px;
+        bottom: 3% !important;
+        left: 3% !important;
+    }
+
+    .window-minimized, .terminal-minimized {
+        height: 24px !important;
+        min-height: 24px !important;
+    }
+}
+
+.window-content img {
+    transition: transform 0.3s ease, filter 0.3s ease;
+    max-width: 100%;
+    max-height: 100%;
+    height: auto; /* Ensure aspect ratio */
+    display: block;
+    margin: auto; /* Center image */
+    object-fit: contain; /* Ensure image fits without stretching */
+    border-radius: 4px;
+}
+
+.window-content img:hover {
+    transform: scale(1.02);
+    filter: brightness(1.05) contrast(1.02);
+}
+
+/* Custom scrollbar styles */
+.window-content::-webkit-scrollbar,
+.mac-terminal .window-content::-webkit-scrollbar {
+    width: 10px; /* Vertical scrollbar width */
+    height: 10px; /* Horizontal scrollbar height */
+}
+
+.window-content::-webkit-scrollbar-track,
+.mac-terminal .window-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.5); /* Dark transparent track */
+    border-radius: 5px;
+}
+
+.window-content::-webkit-scrollbar-thumb,
+.mac-terminal .window-content::-webkit-scrollbar-thumb {
+    background: rgba(0, 255, 0, 0.5); /* Green transparent thumb */
+    border-radius: 5px;
+    border: 1px solid rgba(0,0,0,0.5); /* Border for definition */
+}
+
+.window-content::-webkit-scrollbar-thumb:hover,
+.mac-terminal .window-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 255, 0, 0.75); /* Brighter green on hover */
+}
+
+.hidden {
+    display: none !important;
+}
