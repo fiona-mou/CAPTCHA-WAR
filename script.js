@@ -1460,3 +1460,36 @@ function showOnly(activeElement) {
         }
     });
 }
+function enableDraggableWindows() {
+  interact('.chaos-window').draggable({
+    allowFrom: '.window-titlebar',
+    listeners: {
+      start(event) {
+        const target = event.target;
+        if (!target.dataset.x) {
+          target.dataset.x = 0;
+          target.dataset.y = 0;
+        }
+      },
+      move(event) {
+        const target = event.target;
+
+        let x = (parseFloat(target.dataset.x) || 0) + event.dx;
+        let y = (parseFloat(target.dataset.y) || 0) + event.dy;
+
+        target.style.transform = `translate(${x}px, ${y}px)`;
+        target.dataset.x = x;
+        target.dataset.y = y;
+      }
+    }
+  });
+}
+
+function enableWindowCloseButtons() {
+  document.querySelectorAll('.chaos-window .control-dot.bg-red-500').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const win = btn.closest('.chaos-window');
+      if (win) win.remove();
+    });
+  });
+}
