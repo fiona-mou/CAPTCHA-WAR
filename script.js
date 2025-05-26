@@ -14,20 +14,30 @@ let gameEnded = false;
 
 const assetPool = [
     { src: 'https://spyne-static.s3.amazonaws.com/Ai+Tool/car-transparent-bg-after-1.webp', category: 'cars' },
+    { src: 'https://images.unsplash.com/photo-1486326658981-ed68abe5868e?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', category: 'cars' },
+    { src: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', category: 'cars' },
+    { src: 'https://plus.unsplash.com/premium_photo-1664304752635-3e0d8d8185e3?q=80&w=1771&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', category: 'cars' },
     { src: 'https://media.istockphoto.com/id/184101886/photo/transparent-vehicle.jpg?s=612x612&w=0&k=20&c=qHG1CzfMjE1Oc9xfqvgYI_JkRJpkTeP-X-ijE8BQMFk=', category: 'cars' },
     { src: 'https://img.freepik.com/premium-psd/modern-car-transparent-background-3d-rendering-illustration_494250-34111.jpg', category: 'cars' },
+
     { src: 'https://i.pinimg.com/736x/8a/56/64/8a5664cc818e84b586b9964cef426969.jpg', category: 'bicycles' },
+    { src: 'https://plus.unsplash.com/premium_photo-1677564813893-05d00f64886d?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', category: 'bicycles' },
+    { src: 'https://images.unsplash.com/photo-1671903318196-4a8d882a6af6?q=80&w=1973&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', category: 'bicycles' },
     { src: 'https://static.dezeen.com/uploads/2013/01/dezeen_Clarity-Bike-by-Designaffairs_1a.jpg', category: 'bicycles' },
     { src: 'https://kent.bike/cdn/shop/files/26MargCoastisClear_GreyBlue1_1800x.jpg?v=1717609285', category: 'bicycles' },
+
     { src: 'https://img.freepik.com/free-psd/realistic-detailed-traffic-light-showing-red-yellow-green-transparent-background_84443-26975.jpg', category: 'traffic lights' },
     { src: 'https://i.pinimg.com/474x/a0/97/12/a09712ef4d6ca72cbbb02f3f792d694f.jpg', category: 'traffic lights' },
+    { src: 'https://images.unsplash.com/photo-1695828352681-bf90d2750d42?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', category: 'traffic lights' },
+    { src: 'https://images.unsplash.com/photo-1583040674371-1683cb6bb798?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', category: 'traffic lights' },
     { src: 'https://media.istockphoto.com/id/671842434/photo/traffic-lights-in-a-clear-blue-sky.jpg?s=612x612&w=is&k=20&c=0IK-wzZu75yPHx_8KW7D19Eg1AjscqHUi47ChONX7EI=', category: 'traffic lights'},
+    
     { src: 'https://res.cloudinary.com/woodland/image/upload/c_limit,d_ni.png,f_auto,q_auto,w_1024/v1/advanced_media/media/catalog/product/p/e/pedestrian-crossing.jpg', category: 'crosswalk signs' },
-    { src: 'https://www.trafficthingz.com/mm5/graphics/00000001/1/S1_1_Yellow_640x640.jpg', category: 'crosswalk signs' },
-    { src: 'https://www.uci.utah.gov/wp-content/uploads/2023/09/Pedestrian-crossing-sign.png', category: 'crosswalk signs' },
+    { src: 'https://images.unsplash.com/photo-1741999233762-697b0e8ea82c?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y3Jvc3N3YWxrJTIwc2lnbnxlbnwwfHwwfHx8MA%3D%3D', category: 'crosswalk signs' },
+    { src: 'https://images.unsplash.com/photo-1744013965605-5980092e22b2?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', category: 'crosswalk signs' },
     { src: 'https://media.istockphoto.com/id/1094346466/vector/city-public-bus-with-flat-and-solid-color-style-design-transparent-window-glasses-vector.jpg?s=612x612&w=0&k=20&c=BM6fcDgQYeHrw4_EtRCSCj8SLMo6_a1H2WlNNdLLlO4=', category: 'buses' },
     { src: 'https://img.freepik.com/free-psd/modern-white-bus-transparent-background_84443-25503.jpg', category: 'buses' },
-    { src: 'https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9cci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA0L2Zyc2Nob29sX2J1c19zaWRlX2xvbmctaW1hZ2Utam9iNzA2XzEucGhn.png', category: 'buses'}
+    { src: 'https://images.unsplash.com/photo-1723526680296-2c76e4729fa1?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', category: 'buses'}
 ];
 const potentialTargetCategories = ['cars', 'bicycles', 'traffic lights', 'crosswalk signs', 'buses'];
 const CAPTCHAS_TO_WIN = 10;
@@ -367,7 +377,7 @@ function handleImageUpload(event) {
             const reader = new FileReader();
             reader.onload = (e) => {
                 createThumbnail(e.target.result, index);
-                tempSelectedImages.push({blobUrl: URL.createObjectURL(file)}); // Simplified
+                tempSelectedImages.push({blobUrl: e.target.result}); // Simplified
                 if (tempSelectedImages.length === files.length) {
                     if(selectedImages && selectedImages.length > 0) {
                          selectedImages.forEach(url => URL.revokeObjectURL(url));
@@ -382,7 +392,7 @@ function handleImageUpload(event) {
         elements.noImagesText.textContent = "No images selected yet...";
         toggleButton(elements.proceedToRobotConfirmBtn, false);
         if(selectedImages && selectedImages.length > 0) {
-             selectedImages.forEach(url => URL.revokeObjectURL(url));
+             
         }
         selectedImages = [];
     }
