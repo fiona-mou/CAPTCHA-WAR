@@ -9,7 +9,8 @@ body {
     font-family: 'Courier New', monospace;
     background: #000;
     color: #00ff00;
-    overflow: hidden; /* Prevent body scrollbars */
+    overflow-x: hidden; /* 水平不滚动 */
+    overflow-y: auto;   /* 垂直可滚动 */
 }
 
 /* Scanlines Effect */
